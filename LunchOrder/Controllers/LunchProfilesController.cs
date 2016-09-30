@@ -13,6 +13,7 @@ using Newtonsoft.Json;
 
 namespace LunchOrder.Controllers
 {
+    [Authorize]
     public class LunchProfilesController : ApiController
     {
         private LunchOrderDBContext db = new LunchOrderDBContext();

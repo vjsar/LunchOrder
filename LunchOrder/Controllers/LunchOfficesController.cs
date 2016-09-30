@@ -17,6 +17,7 @@ using LunchOrder.Models.EF;
 
 namespace LunchOrder.Controllers
 {
+    [Authorize]
     public class LunchOfficesController : ApiController
     {
        private readonly LunchOrderDBContext _db = new LunchOrderDBContext();

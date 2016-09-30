@@ -13,6 +13,7 @@ using LunchOrder.Models.Data;
 
 namespace LunchOrder.Controllers
 {
+    [Authorize]
     public class LunchesController : ApiController
     {
         private LunchOrderContext db = new LunchOrderContext();

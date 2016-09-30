@@ -15,6 +15,8 @@ using LunchOrder = LunchOrder.Models.EF.LunchOrder;
 namespace LunchOrder.Controllers
 {
    // [RoutePrefix("api")]
+    [Authorize]
+   // [RoutePrefix("api")]
     public class LunchToOrdersController : ApiController
     {
         private LunchOrderDBContext db = new LunchOrderDBContext();
