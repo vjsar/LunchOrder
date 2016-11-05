@@ -153,16 +153,26 @@ namespace LunchOrder.Controllers
                 FK_OfficeId = lunchProfile.FK_OfficeId,
                 FK_ProviderId = lunchProfile.FK_ProviderId,
                 LastName = lunchProfile.LastName,
-                Login = lunchProfile.Login,
-                LunchOrders = lunchProfile.LunchToOrder.Select(x => new Models.EF.LunchOrder()
-                {
-                    DateOrdered = x.DateOrdered,
-                    FK_ProfileId = x.FK_ProfileId,
-                    Id = x.Id,
-                    Lunch = x.LunchOrder,
-                    LunchDay = x.LunchDay
-                }).ToList()
+                Login = lunchProfile.Login
+                ,
+               LunchOrders = lunchProfile.LunchToOrder.Select(x => new Models.EF.LunchOrder()
+               {
+                   DateOrdered = x.DateOrdered,
+                   FK_ProfileId = x.FK_ProfileId,
+                   Id = x.Id,
+                   Lunch = x.LunchOrder,
+                   LunchDay = x.LunchDay
+               }).ToList()
            };
+
+            var lOrder = lunchProfile.LunchToOrder.Select(x => new Models.EF.LunchOrder()
+            {
+                DateOrdered = x.DateOrdered,
+                FK_ProfileId = x.FK_ProfileId,
+                Id = x.Id,
+                Lunch = x.LunchOrder,
+                LunchDay = x.LunchDay
+            }).ToList();
 
             if (!ModelState.IsValid)
             {
@@ -180,11 +190,11 @@ namespace LunchOrder.Controllers
                 db.Entry(profile).State = EntityState.Modified;
                 try
                 {
-                    if (profile.LunchOrders.Any() && profile.LunchOrders.First().Id == 0)
+                    if (profile.LunchOrders.Any() && profile.LunchOrders.First().Id != 0)
                     {
-                        db.LunchOrders.Add(profile.LunchOrders.FirstOrDefault());
+                       db.LunchOrders.Remove(profile.LunchOrders.FirstOrDefault());
                     }
-                    
+                    db.LunchOrders.Add(lOrder.FirstOrDefault());
                     db.SaveChanges();
                 }
                 catch (DbUpdateConcurrencyException)
@@ -198,7 +208,7 @@ namespace LunchOrder.Controllers
                         throw;
                     }
                 }
-                return StatusCode(HttpStatusCode.NoContent);
+                return StatusCode(HttpStatusCode.OK);
             }
         }
 

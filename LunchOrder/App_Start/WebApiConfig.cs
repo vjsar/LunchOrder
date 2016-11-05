@@ -17,11 +17,14 @@ namespace LunchOrder
             // Web API routes
             config.MapHttpAttributeRoutes();
 
+
             config.Routes.MapHttpRoute(
                 name: "DefaultApi",
                 routeTemplate: "api/{controller}/{id}",
                 defaults: new { id = RouteParameter.Optional }
             );
+             
+            config.Routes.MapHttpRoute("Authentication",".auth/login/authentication",new {controller = "Authentication" });
 
             //return json by default when in a web browser
             config.Formatters.Add(new BrowserJsonFormatter());
